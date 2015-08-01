@@ -64,10 +64,15 @@ class MethodEraserPlugin(val global: Global) extends Plugin {
       val erasers = config.map(m => new EraserTransformer(unit, m))
 
       override def transform(tree: Tree): Tree = {
-        if (erasers.map(_.check(tree)).exists(_ == true))
-          CODE.UNIT
-        else
+        val iter = erasers.iterator
+        var count = -1
+        while(iter.hasNext && !iter.next.check(tree)) {
+          count += 1
+        }
+        if (count < erasers.size)
           super.transform(tree)
+        else
+          CODE.UNIT
       }
     }
 
