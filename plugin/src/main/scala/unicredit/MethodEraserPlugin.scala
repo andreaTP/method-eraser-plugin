@@ -40,7 +40,7 @@ class MethodEraserPlugin(val global: Global) extends Plugin {
     override def newPhase(prev: Phase): StdPhase = new StdPhase(prev) {
       override def apply(unit: CompilationUnit) {
         config.foreach(m =>
-          unit.error(null, "METHOD ERASER ERROR: method "+m+" not found")
+          unit.warning(null, "METHOD ERASER ERROR: method "+m+" not found")
         )
       }
     }
@@ -65,11 +65,11 @@ class MethodEraserPlugin(val global: Global) extends Plugin {
 
       override def transform(tree: Tree): Tree = {
         val iter = erasers.iterator
-        var count = -1
+        var count = 0
         while(iter.hasNext && !iter.next.check(tree)) {
           count += 1
         }
-        if (count < erasers.size)
+        if (count == erasers.size)
           super.transform(tree)
         else
           CODE.UNIT
