@@ -14,8 +14,6 @@ object build extends Build {
     name         := "MethodEraser"
   )
 
-  // This subproject contains a Scala compiler plugin that checks for
-  // value class boxing after Erasure.
   lazy val plugin = Project(
     id   = "plugin",
     base = file("plugin")

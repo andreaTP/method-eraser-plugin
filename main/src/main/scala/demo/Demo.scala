@@ -1,3 +1,7 @@
+//package demo
+//package unicredit
+package demo.unicredit
+
 
 class Foo() {
 	def hello() = "hello"
